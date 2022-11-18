@@ -1,0 +1,7 @@
+{
+  "name": "pinder",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
