@@ -1,13 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { User } from '../models/user';
-import { 
-  Auth, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
-  getAuth, 
-  browserSessionPersistence  
-} from '@angular/fire/auth';
+import {
+  AngularFireAuth
+} from '@angular/fire/compat/auth';
 
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -16,57 +11,53 @@ import { LoadingController, ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any
+  userData!: any;
 
   constructor(
-    private auth: Auth,
-    private toaster:ToastController,
-    private loadingCtrl:LoadingController,
-    private router:Router
-  ) {}
+    private ngFireAuth: AngularFireAuth,
+    private toaster: ToastController,
+    private loadingCtrl: LoadingController,
+    private router: Router
+  ) { }
 
   //login with email/password
-  async signIn(email: string, password: string) {
+  async signIn({ email, password }: any) {
     const loading = await this.loadingCtrl.create({
       message: 'Authenticating..',
       spinner: 'crescent',
       showBackdrop: true
     });
     loading.present();
-    this.auth.setPersistence(browserSessionPersistence).then(() => {
-      signInWithEmailAndPassword(this.auth , email, password).then((data) => {
-        if (!data.user?.emailVerified) {
-          loading.dismiss();
-          this.toast('Please verify your email address!', 'warning');
-          this.auth.signOut();
-        } else {
-          loading.dismiss();
-          this.router.navigate(['/home'])
-        }
-      })
-        .catch(error => {
-          loading.dismiss();
-          this.toast(error.message, 'danger')
-        })
-    })
-      .catch(error => {
+    this.ngFireAuth.signInWithEmailAndPassword(email, password).then((user) => {
+      if (!user.user?.emailVerified) {
         loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+        this.toast('Please verify your email address!', 'warning');
+        this.ngFireAuth.signOut();
+      } else {
+        loading.dismiss();
+        this.router.navigate(['/home'])
+      }
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger')
+    }).catch(error => {
+      loading.dismiss();
+      this.toast(error.message, 'danger');
+    })
   }
 
-  async signOut(){
+  async signOut() {
     const loading = await this.loadingCtrl.create({
       spinner: 'crescent',
-      showBackdrop:true
+      showBackdrop: true
     });
     loading.present();
 
-    signOut(this.auth)
-    .then(()=>{
-      loading.dismiss();
-      this.router.navigate(['/login']);
-    })
+    this.ngFireAuth.signOut()
+      .then(() => {
+        loading.dismiss();
+        this.router.navigate(['/login']);
+      })
   }
 
   async toast(message: string, status: string) {
