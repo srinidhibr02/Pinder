@@ -2,11 +2,37 @@
 //     border: 1px solid black;
 // }
 
-.imageContainerCol{
+h1 {
+    font-size: 50px;
+    text-align: center;
+}
+ion-button {
+    --background: #fe3c72;
+    --background-activated: rgb(255, 255, 255);
+}
+
+.imageContainerCol {
     margin: 0;
     padding: 0;
-    img{
+    height: 30vh;
+
+    img {
         display: block;
         margin: auto;
+        object-fit: contain;
+        height: 100%;
     }
 }
+
+.formCol {
+    border-radius: 30px;
+    background-color: white;
+}
+
+ion-select {
+    margin: 5px;
+    --placeholder-color: #ff0000;
+    --placeholder-opacity: 1;
+    width: 100%;
+    justify-content: center;
+  }
