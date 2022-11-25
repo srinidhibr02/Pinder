@@ -1,6 +1,9 @@
 // *{
 //     border: 1px solid black;
 // }
+h1{
+    font-size: 50px;
+}
 
 ion-button{
     --background: #fe3c72;
@@ -9,15 +12,28 @@ ion-button{
 
 .topRow{
     // padding: 10px;
-    margin-top: 5vh;
     height: 25vh;
     .topCol{
         height: 25vh;
+        padding: 10px;
         ion-img{
-            object-fit: fill;
+            object-fit:contain;
             height: 100%;
             width: 60%;
             margin: auto;
         }
 }
+}
+
+.formRow{
+    padding: 15px;
+    color: black !important;
+    .formCol{
+        background-color: #fff;
+        border-radius: 30px;
+        img{
+            display: block;
+            margin: auto;
+        }
+    }
 }

@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import {
   AngularFireAuth
 } from '@angular/fire/compat/auth';
+import {GoogleAuthProvider} from 'firebase/auth';
 
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -17,7 +18,8 @@ export class AuthService {
     private ngFireAuth: AngularFireAuth,
     private toaster: ToastController,
     private loadingCtrl: LoadingController,
-    private router: Router
+    private router: Router,
+    public ngZone: NgZone
   ) { }
 
   //login with email/password
@@ -58,6 +60,24 @@ export class AuthService {
         loading.dismiss();
         this.router.navigate(['/login']);
       })
+  }
+  GoogleAuth(){
+    return this.AuthLogin(new GoogleAuthProvider());
+  }
+
+ // @ts-ignore
+  AuthLogin(provider){
+    return this.ngFireAuth
+    .signInWithPopup(provider)
+    .then((result)=>{
+      this.ngZone.run(()=>{
+        this.router.navigate(['dashboard']);
+      });
+      //this.SetUserData(result.user);
+    })
+    .catch((error)=>{
+      this.toast(error.message, 'danger');
+    })
   }
 
   async toast(message: string, status: string) {

@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPage implements OnInit {
   loginCredentials!: FormGroup;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -17,17 +18,28 @@ export class LoginPage implements OnInit {
   ) {}
   ngOnInit() {
     this.loginCredentials = this.fb.group({
-      userName: [
+      email: [
         '', [Validators.required, Validators.email]
       ],
       password:[
-        '',[Validators.required, Validators.minLength(6)]
+        '',[Validators.required, Validators.minLength(7)]
       ]
     })
+  }
+
+  get email(){
+    return this.loginCredentials.get('email');
+  }
+  get password(){
+    return this.loginCredentials.get('password');
   }
 
   async login () {
     await this.authService.signIn(this.loginCredentials.value);
   }
 
+  async GoogleAuth(){
+    // console.log('being Clicked');
+    await this.authService.GoogleAuth();
+  }
 }
