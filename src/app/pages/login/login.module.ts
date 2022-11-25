@@ -8,6 +8,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 import { AuthService } from '../../services/auth.service';
+import { SharedComponents } from 'src/app/component/shared.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { AuthService } from '../../services/auth.service';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    LoginPageRoutingModule
+    LoginPageRoutingModule,
+    SharedComponents
   ],
   declarations: [LoginPage],
   providers:[
