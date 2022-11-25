@@ -1,32 +1,32 @@
 // * {
 //     border: 1px solid black;
 // }
-ion-content{
+
+ion-content {
     --ion-background-color: linear-gradient(#fe3c72, #000000);
+    backdrop-filter: blur(100px);
 }
+
 .welcomeRow {
+    // margin-top: 5vh;
     width: 100vw;
     height: 30vh;
-    margin-top: 5vh;
+    // overflow:auto;
     .welcomeCol {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        ion-img {
-            height: 30vh;
+        margin: auto;
+        ion-img{
+            height: 25vh;
         }
     }
 }
 
-.pinderRow{
+.pinderRow {
     width: 100vw;
     height: 30vh;
     .pinderCol {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        margin: auto;
         ion-img {
-            width: 30vw;
+            height: 25vh;
         }
     }
 }
@@ -36,12 +36,17 @@ ion-content{
         .text {
             text-align: center;
             color: whitesmoke;
-            font-size: 40px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 60px;
         }
     }
 }
-
-ion-button{
-    --background: #fe3c72;
+ion-footer{
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ion-button {
+        height: 80px;
+    }
 }
+

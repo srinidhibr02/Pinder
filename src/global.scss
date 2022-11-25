@@ -31,8 +31,13 @@
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
 
+@font-face {
+    font-family: 'PatrickHand';
+    src: url('./assets/fonts/PatrickHand-Regular.ttf');
+}
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: PatrickHand;
 }

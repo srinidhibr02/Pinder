@@ -1,0 +1,23 @@
+// *{
+//     border: 1px solid black;
+// }
+
+ion-button{
+    --background: #fe3c72;
+    --background-activated: rgb(255, 255, 255);
+}
+
+.topRow{
+    // padding: 10px;
+    margin-top: 5vh;
+    height: 25vh;
+    .topCol{
+        height: 25vh;
+        ion-img{
+            object-fit: fill;
+            height: 100%;
+            width: 60%;
+            margin: auto;
+        }
+}
+}
