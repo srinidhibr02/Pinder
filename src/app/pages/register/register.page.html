@@ -1,16 +1,86 @@
 <ion-header translucent>
-  <ion-toolbar>
+  <ion-toolbar class="ion-text-center">
     <ion-buttons slot="start">
       <ion-back-button color="danger" text="Back"></ion-back-button>
     </ion-buttons>
+    Create a profile
   </ion-toolbar>
+  <ion-buttons></ion-buttons>
 </ion-header>
 
 <ion-content fullscreen="true" color="light">
   <ion-grid>
     <ion-row class="ion-padding">
       <ion-col class="imageContainerCol">
-        <img src="../../../assets/SVG to use/undraw_everyday_life_re_1lfb.svg" width="250px"/>
+        <img src="../../../assets/SVG to use/undraw_everyday_life_re_1lfb.svg" />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="formCol ion-margin">
+        <h1>Register</h1>
+        <form [formGroup]="registerCredentials" class="ion-padding">
+          <ion-item lines="full">
+            <ion-label position="floating" color="danger">Email-Address</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+            <!-- Validations for Email -->
+            <ion-text color="danger" *ngIf="email!.touched && email!.errors?.['required']">
+              Email is required
+            </ion-text>
+            <ion-text color="danger" *ngIf="email!.dirty && email!.errors?.['email']">
+              Enter a valid email address
+            </ion-text>
+          </ion-item>
+          <ion-item lines="full" counter="true" [counterFormatter]="customCounterFormatter">
+            <ion-label position="floating" color="danger">Phone Number</ion-label>
+            <ion-input type="tel" maxlength="10" formControlName="phoneNo"></ion-input>
+            <!-- Validations for Phone Number -->
+            <ion-text color="danger" *ngIf="phoneNo!.touched && phoneNo!.errors?.['required']">
+              Enter your phone number
+            </ion-text>
+            <ion-text color="danger" *ngIf="phoneNo!.dirty && phoneNo!.errors?.['pattern']">
+              Phone number is Invalid
+            </ion-text>
+          </ion-item>
+          <ion-item lines="full">
+            <ion-label position="floating" color="danger">Password</ion-label>
+            <app-show-hide-toggle>
+              <ion-input type="password" formControlName="password"></ion-input>
+            </app-show-hide-toggle>
+            <!-- Validations for Password -->
+            <ion-text color="danger" *ngIf="password!.touched && password!.errors?.['required']">
+              Enter password for Authentication
+            </ion-text>
+            <ion-text color="danger" *ngIf="password!.dirty && password!.errors?.['minlength']">
+              Password must be atleast 8 Charecters
+            </ion-text>
+            <ion-text color="danger" *ngIf="password!.dirty && password!.errors?.['maxlength']">
+              Password must be less than 20 Charecters
+            </ion-text>
+          </ion-item>
+          <ion-item lines="full">
+            <ion-label position="floating" color="danger">Confirm Password</ion-label>
+            <app-show-hide-toggle>
+              <ion-input type="password" #confPassword ></ion-input>
+            </app-show-hide-toggle>
+            <!-- Password matching -->
+            <ion-text color="danger" *ngIf="password!.dirty && password!.value !== confPassword.value">
+              Password is not matching
+            </ion-text>
+            <ion-text color="success" *ngIf="password!.dirty &&  password!.value === confPassword.value">
+              Password matches
+            </ion-text>
+          </ion-item>
+          <ion-item lines="none" class="ion-margin">
+            <ion-checkbox slot="start" color="danger" formControlName="agreetoTC" [checked]="false"></ion-checkbox>
+            <ion-label> &nbsp; I agree to the terms and conditions</ion-label><br>
+            <!-- Agree to Terms & Conditions -->
+            <ion-text color="danger" *ngIf="agreetoTC!.touched && agreetoTC!.invalid">
+              Accept terms and conditions
+            </ion-text>
+          </ion-item>
+          <ion-button expand="full" shape="round" [disabled]="!registerCredentials.valid">Create an account</ion-button>
+          <p class="ion-text-center" style="color:#fe3c72;">Join us in making a community for pet lovers.</p>
+        </form>
       </ion-col>
     </ion-row>
   </ion-grid>
