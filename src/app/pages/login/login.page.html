@@ -1,1 +1,50 @@
+<ion-content [fullscreen]="true" color="muted">
+    <ion-grid>
+        <ion-row class="topRow">
+            <ion-col class="topCol">
+                <ion-img src="../../../assets/SVG to use/undraw_dog_re_7980.svg"></ion-img>
+            </ion-col>
+        </ion-row>
 
+        <ion-row>
+            <ion-col>
+                <h1 class="ion-text-center">Sign In</h1>
+                <form [formGroup]="loginCredentials" class="ion-margin">
+                        <ion-item lines="full">
+                            <ion-label position="floating" color="danger">User Name</ion-label>
+                            <ion-input formControlName="userName" type="text"></ion-input>
+                        </ion-item>
+                        <ion-item lines="full">
+                            <ion-label position="floating" color="danger">Password</ion-label>
+                            <ion-input [clearInput]="true" formControlName="password"></ion-input>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-button fill="clear" color="dark">Forgot Password?</ion-button>
+                        </ion-item>
+                        <ion-row>
+                            <ion-col>
+                                <ion-button fill="clear" expand="block" size="large" color="danger">Signup</ion-button>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button expand="block" shape="round" size="large">Login</ion-button>
+                            </ion-col>
+                        </ion-row>
+                        <!-- <ion-item></ion-item> -->
+                        <h5 class="ion-text-center">Or Connect with</h5>
+                        <ion-button fill="outline" expand="block" color="danger">
+                            <ion-icon name="logo-google" size="large" color="danger"></ion-icon>
+                            <ion-text color="dark"> &nbsp; Sign in with google</ion-text>
+                        </ion-button>
+                  
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+
+    <ion-button class="ion-margin" routerLink="/register" color="danger" fill="clear" expand="full">
+        <p style="color: black;">New to Pinder?&nbsp;<span style="color: #fe3c72;">Register.</span></p>
+    </ion-button>
+
+</ion-footer>
