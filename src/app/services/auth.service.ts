@@ -109,6 +109,7 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
+          this.toast('Authenticated','success');
           this.router.navigate(['/home']);
         });
         this.SetUserData(result.user);
@@ -121,7 +122,7 @@ export class AuthService {
 
   SetUserData(user: any) {
     const userData: User = {
-      email: user.uid,
+      email: user.email,
       emailVerified: user.emailVerified,
       phone: (user?.phone === undefined) ? null : user.phone,
       phoneVerified: (user?.phoneVerified === undefined) ? null : user.phoneVerified,
