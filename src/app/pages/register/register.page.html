@@ -78,7 +78,7 @@
               Accept terms and conditions
             </ion-text>
           </ion-item>
-          <ion-button expand="full" shape="round" [disabled]="!registerCredentials.valid">Create an account</ion-button>
+          <ion-button expand="full" shape="round" [disabled]="!registerCredentials.valid" (click)="registerUser()">Create an account</ion-button>
           <p class="ion-text-center" style="color:#fe3c72;">Join us in making a community for pet lovers.</p>
         </form>
       </ion-col>
