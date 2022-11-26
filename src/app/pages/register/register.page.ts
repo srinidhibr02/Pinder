@@ -44,6 +44,9 @@ export class RegisterPage implements OnInit {
     return this.registerCredentials.get('agreetoTC')
   }
   
+  async registerUser(){
+    this.authService.register(this.registerCredentials.value);
+  }
   customCounterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength} characters remaining`;
   }
