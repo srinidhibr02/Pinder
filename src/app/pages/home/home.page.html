@@ -1,9 +1,55 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs #tabs (ionTabsDidChange)="setCurrentTab($event)">
+  <ion-fab vertical="bottom" horizontal="center" translucent="true">
+    <ion-fab-button routerLink="/home/add-post">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>  
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="feeds">
+      <ion-icon [name]="selectTab=='feeds'?'home':'home-outline'"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="mates" class="mates">
+      <ion-icon [name]="selectTab=='mates'?'heart':'heart-outline'"></ion-icon>
+    </ion-tab-button>
 
-<ion-content>
+    <svg height="50" viewBox="0 0 100 50" width="100" xmls="http://www.w3.org/2000/svg">
+      <path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z"
+        fill="red" fill-rule="evenodd">     
+      </path>
+    </svg>
+    
+    <ion-tab-button tab="todos" class="todos">
+      <ion-icon [name]="selectTab=='todos'?'grid':'grid-outline'"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="profile">
+      <ion-icon [name]="selectTab=='profile'?'person':'person-outline'"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
 
-</ion-content>
+  <!-- <ion-tab-bar slot="bottom">
+    <ion-fab vertical="bottom" translucent="true">
+      <ion-fab-button routerLink="/home/add-post">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-tab-button tab="feeds">
+      <ion-icon [name]="selectTab=='feeds'?'home':'home-outline'"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile">
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="feeds">
+      <ion-icon name="map"></ion-icon>
+      <ion-label>Feeds</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>About</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar> -->
+</ion-tabs>
