@@ -7,18 +7,17 @@ import { IonTabs } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  selectTab: any;
-  
-  //@ts-ignore
+  current_tab!:string;
+  // @ts-ignore
   @ViewChild('tabs') tabs: IonTabs;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   setCurrentTab(event:any){
-    console.log(event);
-    this.selectTab = this.tabs.getSelected();
+    this.current_tab = event.tab.toString();
   }
 
 }

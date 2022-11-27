@@ -1,9 +1,7 @@
-// * {
-//     border: 1px solid black;
-// }
-
+*{
+    border: 1px solid black;
+}
 ion-tabs {
-
     ion-tab-bar {
         position: absolute;
         bottom: 0;
@@ -11,12 +9,10 @@ ion-tabs {
         --background: transparent;
         border-radius: 20px 20px 0 0;
         --border: 0;
-
         ion-tab-button {
             --background: white;
-            --color: rgb(72, 72, 72);
-            --color-selected: black;
-
+            --color: rgb(0, 0, 0);
+            --color-selected: #fe3c72;
             ion-icon {
                 font-size: 1.5rem;
             }
@@ -47,10 +43,9 @@ ion-tabs {
     ion-fab {
         width: 60px;
         height: 60px;
-        display: inline-block !important;
         margin-inline-start: -30px;
         ion-fab-button {
-            --background: linear-gradient(to bottom, #c13584, #E13584, #FD1D1D, #F56040);
+            --background: linear-gradient(#fe3c72, #000000);
             width: 100%;
             height: 100%;
             ion-icon {
