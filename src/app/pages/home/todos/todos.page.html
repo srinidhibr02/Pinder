@@ -1,9 +1,51 @@
-<ion-header>
+<ion-header class="ion-padding ion-margin" translucent="true">
   <ion-toolbar>
-    <ion-title>todos</ion-title>
+    <ion-title>
+      <h1>Todo</h1>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button size="large" (click)="setOpen(true)">
+        <ion-icon name="add-circle-outline" slot="end"  style="color: #fe3c72; font-size: 2.5rem;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="false">
 
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Modal</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
+          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
+          dicta.
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <h2 style="color:#fe3c72">
+          {{today | date: 'MMMM'}}
+        </h2>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngFor="let day of currentWeek;" class="ion-text-center dateCol" [ngClass]="compareDatetoToday(day) ? 'active': ''" size="1.7">
+        <h3>{{day | date:'EEE'}}</h3>
+        <h6>{{day | date: 'dd'}}</h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
