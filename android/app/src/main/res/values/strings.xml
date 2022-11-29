@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pinder</string>
+    <string name="title_activity_main">pinder</string>
+    <string name="package_name">io.ionic.starter</string>
+    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="server_client_id">219565146680-o5t692j82jd30vecqubu7v4dttuvb65v.apps.googleusercontent.com</string>
+</resources>

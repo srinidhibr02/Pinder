@@ -36,7 +36,8 @@ import { AuthGuard } from './guards/auth.guard';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -11,11 +11,18 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+GoogleAuth.initialize({
+  clientId: '219565146680-o5t692j82jd30vecqubu7v4dttuvb65v.apps.googleusercontent.com',
+  scopes: ['profile', 'email'],
+  grantOfflineAccess: true,
+});
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData!: any;
+  userInfo!:any;
 
   constructor(
     private firestore: AngularFirestore,
@@ -25,7 +32,7 @@ export class AuthService {
     private alertCtrl: AlertController,
     private router: Router,
     public ngZone: NgZone
-  ) { }
+  ) {}
 
   //login with email/password
   async signIn({ email, password }: any) {
@@ -38,7 +45,6 @@ export class AuthService {
     this.ngFireAuth.signInWithEmailAndPassword(email, password).then((user) => {
       if (!user.user?.emailVerified) {
         loading.dismiss();
-        // this.toast('Please verify your email address!', 'warning');
         this.presentAlert(
           'Verify your Email',
           '',
@@ -100,24 +106,14 @@ export class AuthService {
         this.router.navigate(['/login']);
       })
   }
-  GoogleAuth() {
-    return this.AuthLogin(new GoogleAuthProvider());
-  }
 
-  AuthLogin(provider: any) {
-    return this.ngFireAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.toast('Authenticated','success');
-          this.router.navigate(['/home']);
-        });
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.toast(error.message, 'danger');
-      })
+
+  async GoogleAuth() {
+     this.userInfo = await GoogleAuth.signIn()
+     .then((result)=>{
+      console.log(result)
+     })
+    
   }
 
   SetUserData(user: any) {

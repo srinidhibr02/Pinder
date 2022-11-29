@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "472280878404",
+    "project_id": "pinder-91a59",
+    "storage_bucket": "pinder-91a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472280878404:android:ad41eb8f5e9327f018db11",
+        "android_client_info": {
+          "package_name": "com.zerolpa.pinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472280878404-ct214n15lriucmptvs36jltlpth2h5bp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zerolpa.pinder",
+            "certificate_hash": "b1b5e05616c5f0e06bc8ea0ab4ed90d8300ea27e"
+          }
+        },
+        {
+          "client_id": "472280878404-p0gmrjsi5km54kfnap7s848cljss4aa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYD2faHk7ou627clq4x17sXejwj_zknVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472280878404-p0gmrjsi5km54kfnap7s848cljss4aa9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "472280878404-0v2iaiq47sgnlj8bdid9sqhehqv44oau.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zerolpa.pinder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
