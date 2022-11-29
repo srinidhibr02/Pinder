@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+
+import { Router } from '@angular/router';
+import { Component, OnInit, NgZone } from '@angular/core';
+
+import jwt_decode from 'jwt-decode';
+
+
+import {CredentialResponse, PromptMomentNotification} from 'google-one-tap';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +22,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
+    private router: Router,
+    private _ngZone: NgZone
   ) {}
   ngOnInit() {
     this.loginCredentials = this.fb.group({
@@ -23,7 +33,26 @@ export class LoginPage implements OnInit {
       password:[
         '',[Validators.required, Validators.minLength(7)]
       ]
-    })
+    });
+
+    //@ts-ignore
+    window.onGoogleLibraryLoad = () =>{
+      //@ts-ignore
+      google.accounts.id.initialize({
+        client_id:'219565146680-o5t692j82jd30vecqubu7v4dttuvb65v.apps.googleusercontent.com',
+        callback: this.handleCredentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+      //@ts-ignore
+      google.accounts.id.renderButton(
+        //@ts-ignore
+        document.getElementById('buttonDiv'),
+        {theme:'outline',size:'large',width:"100%", shape:'circle'}
+      );
+      //@ts-ignore
+      google.accounts.id.prompt((notification : PromptMomentNotification)=> {}) 
+    };
   }
 
   get email(){
@@ -37,16 +66,24 @@ export class LoginPage implements OnInit {
     await this.authService.signIn(this.loginCredentials.value);
   }
 
-  async GoogleAuth(){
-    // console.log('being Clicked');
-    await this.authService.GoogleAuth();
+  async handleCredentialResponse(response: CredentialResponse){
+    console.log(response);
+    await this.getDecodedAccessToken(response.credential)
+    .then(
+      (x:any)=>{
+        localStorage.setItem('token',x.token);
+        this._ngZone.run(()=>{
+          this.router.navigate(['/home']);
+        })
+      }
+    )
+    .catch((error:any)=>{
+      debugger
+      console.log(error);
+    })
   }
-
-  onSignIn(googleUser:any) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  async getDecodedAccessToken(token: string){
+      console.log(jwt_decode(token))
+      return jwt_decode(token);
   }
 }

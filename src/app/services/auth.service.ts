@@ -6,17 +6,11 @@ import {
 import {
   AngularFireAuth
 } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
+import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-GoogleAuth.initialize({
-  clientId: '219565146680-o5t692j82jd30vecqubu7v4dttuvb65v.apps.googleusercontent.com',
-  scopes: ['profile', 'email'],
-  grantOfflineAccess: true,
-});
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +25,8 @@ export class AuthService {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private router: Router,
-    public ngZone: NgZone
+    private httpClient: HttpClient,
+    public _ngZone: NgZone
   ) {}
 
   //login with email/password
@@ -107,15 +102,10 @@ export class AuthService {
       })
   }
 
-
+  //Google Authentication removing everything else
   async GoogleAuth() {
-     this.userInfo = await GoogleAuth.signIn()
-     .then((result)=>{
-      console.log(result)
-     })
-    
+  
   }
-
   SetUserData(user: any) {
     const userData: User = {
       email: user.email,
