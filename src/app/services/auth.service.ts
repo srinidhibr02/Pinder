@@ -6,16 +6,17 @@ import {
 import {
   AngularFireAuth
 } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
+import jwt_decode from 'jwt-decode';
 
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData!: any;
+  userInfo!:any;
 
   constructor(
     private firestore: AngularFirestore,
@@ -24,8 +25,9 @@ export class AuthService {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private router: Router,
-    public ngZone: NgZone
-  ) { }
+    private httpClient: HttpClient,
+    public _ngZone: NgZone
+  ) {}
 
   //login with email/password
   async signIn({ email, password }: any) {
@@ -38,7 +40,6 @@ export class AuthService {
     this.ngFireAuth.signInWithEmailAndPassword(email, password).then((user) => {
       if (!user.user?.emailVerified) {
         loading.dismiss();
-        // this.toast('Please verify your email address!', 'warning');
         this.presentAlert(
           'Verify your Email',
           '',
@@ -100,26 +101,11 @@ export class AuthService {
         this.router.navigate(['/login']);
       })
   }
-  GoogleAuth() {
-    return this.AuthLogin(new GoogleAuthProvider());
-  }
 
-  AuthLogin(provider: any) {
-    return this.ngFireAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.toast('Authenticated','success');
-          this.router.navigate(['/home']);
-        });
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.toast(error.message, 'danger');
-      })
+  //Google Authentication removing everything else
+  async GoogleAuth() {
+  
   }
-
   SetUserData(user: any) {
     const userData: User = {
       email: user.email,

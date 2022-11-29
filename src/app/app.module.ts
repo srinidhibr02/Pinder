@@ -2,7 +2,7 @@ import { LoginPage } from './pages/login/login.page';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import {HttpClientModule} from '@angular/common/http'; 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,12 +18,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 //environment
 import { environment } from './../environments/environment';
 
-//Auth
-import { AuthService } from './services/auth.service'
-
-//Guard
-import { AuthGuard } from './guards/auth.guard';
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +30,8 @@ import { AuthGuard } from './guards/auth.guard';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
