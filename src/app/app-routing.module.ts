@@ -1,4 +1,3 @@
-import { RegisterPage } from './pages/register/register.page';
 import { LoginPage } from './pages/login/login.page';
 import { WelcomePage } from './pages/welcome/welcome.page';
 import { NgModule } from '@angular/core';
@@ -20,11 +19,6 @@ const routes: Routes = [
     path: 'login',
     component: LoginPage,
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path:'register',
-    component: RegisterPage,
-    loadChildren: ()=> import('./pages/register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path:'home',

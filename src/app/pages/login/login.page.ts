@@ -5,11 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
 
-import jwt_decode from 'jwt-decode';
-
-
-import {CredentialResponse, PromptMomentNotification} from 'google-one-tap';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -34,25 +29,6 @@ export class LoginPage implements OnInit {
         '',[Validators.required, Validators.minLength(7)]
       ]
     });
-
-    //@ts-ignore
-    window.onGoogleLibraryLoad = () =>{
-      //@ts-ignore
-      google.accounts.id.initialize({
-        client_id:'219565146680-hm29jm5ajomdsvpqu5n3u64f6hko4ttg.apps.googleusercontent.com',
-        callback: this.handleCredentialResponse.bind(this),
-        auto_select: false,
-        cancel_on_tap_outside: true
-      });
-      //@ts-ignore
-      google.accounts.id.renderButton(
-        //@ts-ignore
-        document.getElementById('buttonDiv'),
-        {theme:'outline',size:'large',width:"100%", shape:'circle'}
-      );
-      //@ts-ignore
-      google.accounts.id.prompt((notification : PromptMomentNotification)=> {}) 
-    };
   }
 
   get email(){
@@ -66,24 +42,11 @@ export class LoginPage implements OnInit {
     await this.authService.signIn(this.loginCredentials.value);
   }
 
-  async handleCredentialResponse(response: CredentialResponse){
-    console.log(response);
-    await this.getDecodedAccessToken(response.credential)
-    .then(
-      (x:any)=>{
-        localStorage.setItem('token',x.token);
-        this._ngZone.run(()=>{
-          this.router.navigate(['/home']);
-        })
-      }
-    )
-    .catch((error:any)=>{
-      debugger
-      console.log(error);
-    })
+  async successCallback(signInSuccessData:any){
+    console.log(signInSuccessData)
+    this.router.navigateByUrl('/home');
   }
-  async getDecodedAccessToken(token: string){
-      console.log(jwt_decode(token))
-      return jwt_decode(token);
+  async errorCallback(errorData:any){
+    console.log(errorData);
   }
 }

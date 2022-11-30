@@ -1,3 +1,4 @@
+import { FirebaseUIModule } from 'firebaseui-angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +18,8 @@ import { SharedComponents } from 'src/app/component/shared.module';
     ReactiveFormsModule,
     IonicModule,
     LoginPageRoutingModule,
-    SharedComponents
+    SharedComponents,
+    FirebaseUIModule
   ],
   declarations: [LoginPage],
   providers:[
