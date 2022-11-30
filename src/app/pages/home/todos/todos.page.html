@@ -1,11 +1,14 @@
 <ion-header class="ion-padding ion-margin" translucent="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: #fe3c72;"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
       <h1>Todo</h1>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button size="large" (click)="setOpen(true)">
-        <ion-icon name="add-circle-outline" slot="end"  style="color: #fe3c72; font-size: 2.5rem;"></ion-icon>
+        <ion-icon name="add-circle-outline" slot="end"  style="color: #fe3c72; font-size: 2rem;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -17,18 +20,19 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Modal</ion-title>
+          <ion-title>Add Task</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false)">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
-          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
-          dicta.
-        </p>
+        <form>
+          <ion-item>
+            <ion-label position="floating">When to do</ion-label>
+            <ion-datetime></ion-datetime>
+          </ion-item>
+        </form>
       </ion-content>
     </ng-template>
   </ion-modal>

@@ -1,9 +1,102 @@
-<ion-tabs #tabs (ionTabsDidChange)="setCurrentTab($event)">
+<ion-menu contentId="mainContent">
+  <ion-header>
+    <ion-toolbar>
+      <ion-avatar slot="start">
+        <img src="../../../assets/Pinder Assets/Pinder logo.png" width=20 />
+      </ion-avatar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-grid>
+      <ion-text color="danger">Subscriptions</ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="heart-half-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Pinder Plus</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-text color="danger">Features Available</ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="home-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Feeds</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="heart-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Pet Mate</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="grid-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">To-Do Reminder</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Gallery</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-text color="danger">Upcomming Features</ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="navigate-circle-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Consult-Vet</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="cut-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Grooming Centers</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none">
+            <ion-icon name="bag-handle-outline" slot="start"></ion-icon>
+            <ion-text class="ion-padding-start">Shop Accessories</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-text color="danger">Logout from your account</ion-text>
+      <ion-row>
+        <ion-col>
+          <ion-footer>
+            <ion-item lines="none">
+              <ion-icon name="log-out-outline" slot="start"></ion-icon>
+              <ion-text class="ion-padding-start">Logout</ion-text>
+            </ion-item>
+          </ion-footer>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-menu>
+
+<ion-tabs #tabs (ionTabsDidChange)="setCurrentTab($event)" id="mainContent">
   <ion-fab vertical="bottom" horizontal="center" translucent="true">
     <ion-fab-button routerLink="/home/add-post">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
-  </ion-fab> 
+  </ion-fab>
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="feeds">
@@ -14,11 +107,10 @@
     </ion-tab-button>
 
     <svg height="50" viewBox="0 0 100 50" width="100" xmls="http://www.w3.org/2000/svg">
-      <path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z"
-        fill="red" fill-rule="evenodd">     
+      <path d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z" fill="red" fill-rule="evenodd">
       </path>
     </svg>
-    
+
     <ion-tab-button tab="todos" class="todos">
       <ion-icon [name]="current_tab =='todos'?'grid':'grid-outline'"></ion-icon>
     </ion-tab-button>

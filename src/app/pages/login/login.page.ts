@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
     window.onGoogleLibraryLoad = () =>{
       //@ts-ignore
       google.accounts.id.initialize({
-        client_id:'219565146680-o5t692j82jd30vecqubu7v4dttuvb65v.apps.googleusercontent.com',
+        client_id:'219565146680-hm29jm5ajomdsvpqu5n3u64f6hko4ttg.apps.googleusercontent.com',
         callback: this.handleCredentialResponse.bind(this),
         auto_select: false,
         cancel_on_tap_outside: true
