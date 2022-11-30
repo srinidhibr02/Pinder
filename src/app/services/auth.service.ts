@@ -102,10 +102,7 @@ export class AuthService {
       })
   }
 
-  //Google Authentication removing everything else
-  async GoogleAuth() {
   
-  }
   SetUserData(user: any) {
     const userData: User = {
       email: user.email,

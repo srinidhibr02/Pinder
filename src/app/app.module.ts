@@ -17,6 +17,21 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 //environment
 import { environment } from './../environments/environment';
 
+//Firebase Auth UI
+import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInFlow: 'redirect',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+      requireDisplayName: false,
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+    },
+    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+  ]
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +45,8 @@ import { environment } from './../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    HttpClientModule
+    HttpClientModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
