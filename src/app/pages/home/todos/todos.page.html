@@ -1,11 +1,14 @@
 <ion-header class="ion-padding ion-margin" translucent="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: #fe3c72;"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
       <h1>Todo</h1>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button size="large" (click)="setOpen(true)">
-        <ion-icon name="add-circle-outline" slot="end"  style="color: #fe3c72; font-size: 2.5rem;"></ion-icon>
+        <ion-icon name="add-circle-outline" slot="end"  style="color: #fe3c72; font-size: 2rem;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
