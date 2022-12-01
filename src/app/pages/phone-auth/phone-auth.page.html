@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>phoneAuth</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="!user">
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="success" (click)="login()" expand="block">Login with Google</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+
+
+      <div class="container">
+
+        <ng-container *ngIf="!otpSent; else otpContainer">
+          <div class="sec-container">
+            <input [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" class="get-input" placeholder="Phone" type="tel">
+            <button (click)="sendOtp()" class="button-press">Get OTP</button>
+          </div>
+        </ng-container>
+        <ng-template #otpContainer>
+          <div class="sec-container">
+            <input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number">
+            <button (click)="signIn()" class="button-press">Sign In</button>
+          </div>
+        </ng-template>
+        <div id="sign-in-button"></div>
+      </div>
+
+    </ion-row>
+  </form>
+
+  <ion-card *ngIf="user">
+    <ion-img [src]="user.photoURL"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>{{user.email}}</ion-card-subtitle>
+      <ion-card-title>{{user.displayName}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="logout()" expand="block" color="danger">Logout</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

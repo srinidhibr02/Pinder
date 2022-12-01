@@ -1,5 +1,7 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import SwiperCore, {SwiperOptions} from 'swiper';
+import { Storage } from '@ionic/Storage-angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-welcome',
@@ -7,15 +9,19 @@ import SwiperCore, {SwiperOptions} from 'swiper';
   styleUrls: ['./welcome.page.scss'],
 })
 export class WelcomePage implements OnInit {
-  config:SwiperOptions = {
-    slidesPerView: 3,
-    spaceBetween: 50,
-    navigation: true,
-    
-  }
-  constructor() { }
+  constructor(
+    private storage: Storage, 
+    private router: Router,
+    private navCtrl: NavController
+    ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.storage.create();
   }
 
+  proceed(){
+    this.storage.set('ViewedOnboardingPage', true)
+    this.navCtrl.navigateForward('/sign-in');
+  }
+  
 }
