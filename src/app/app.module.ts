@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import {HttpClientModule} from '@angular/common/http'; 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -17,21 +16,9 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 //environment
 import { environment } from './../environments/environment';
 
-//Firebase Auth UI
-import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+//Ionic-Angular Storage
+import { IonicStorageModule } from '@ionic/Storage-angular'; 
 
-const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'redirect',
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
-    },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-  ]
-};
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,14 +29,15 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
     HttpClientModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Storage
   ],
   bootstrap: [AppComponent],
 })
