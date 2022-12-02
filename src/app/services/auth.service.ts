@@ -27,8 +27,7 @@ export class AuthService implements OnInit {
       if (user) {
         //User Signed In
         this.user = user;
-        this.presentToast('Login Successful', 'success');
-        this.navCtrl.navigateForward(['/home']);
+        this.navCtrl.navigateForward(['/tabs']);
         console.log(this.user);
       } else {
         //User Not Signed In
@@ -37,7 +36,7 @@ export class AuthService implements OnInit {
     })
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   //Phone Authentication
   //Send OTP to phone number
@@ -64,10 +63,7 @@ export class AuthService implements OnInit {
         this.presentToast(error.message, 'danger');
       });
   }
-  async resendOTP(phoneNumber: string) {
-    this.recaptchaVerifier.clear();
-    this.sendOTP(phoneNumber);
-  }
+ 
   //Congirm OTP & Authenticate
   async signIn(otp: any) {
     const loading = await this.loadingCtrl.create({
@@ -82,7 +78,6 @@ export class AuthService implements OnInit {
         loading.dismiss();
         this.presentToast('Successfully Authenticated', 'success');
         this.user = user;
-        this.navCtrl.navigateForward('/home')
       })
       .catch((error: any) => {
         loading.dismiss();
@@ -104,8 +99,16 @@ export class AuthService implements OnInit {
 
   //Log out
   async logout() {
-    this.fireAuth.signOut();
-    this.router.navigate(['/sign-in'])
+    const loading = await this.loadingCtrl.create({
+      message: 'please wait...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+    loading.present();
+    this.fireAuth.signOut().then(()=>{
+      loading.dismiss();
+      this.router.navigate(['/sign-in']);
+    })
   }
 
   async presentToast(message: string, status: string) {
