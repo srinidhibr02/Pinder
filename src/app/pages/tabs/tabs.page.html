@@ -76,24 +76,18 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-text color="danger">Logout from your account</ion-text>
-      <ion-row>
-        <ion-col>
-          <ion-footer>
-            <ion-item lines="none">
-              <ion-icon name="log-out-outline" slot="start"></ion-icon>
-              <ion-text class="ion-padding-start">Logout</ion-text>
-            </ion-item>
-          </ion-footer>
-        </ion-col>
-      </ion-row>
     </ion-grid>
+    <ion-text color="danger">Logout from your account</ion-text>
+    <ion-item (click)="signout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-text class="ion-padding-start">Logout</ion-text>
+    </ion-item>
   </ion-content>
 </ion-menu>
 
 <ion-tabs #tabs (ionTabsDidChange)="setCurrentTab($event)" id="mainContent">
   <ion-fab vertical="bottom" horizontal="center" translucent="true">
-    <ion-fab-button routerLink="/home/add-post">
+    <ion-fab-button routerLink="/tabs/add-post">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

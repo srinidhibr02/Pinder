@@ -1,126 +1,122 @@
-import { User } from './../models/user';
-import { Injectable, NgZone } from '@angular/core';
-import {
-  AngularFirestore,
-} from '@angular/fire/compat/firestore';
-import {
-  AngularFireAuth
-} from '@angular/fire/compat/auth';
-import jwt_decode from 'jwt-decode';
-
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+
+import { Injectable, OnInit } from '@angular/core';
+import firebase from 'firebase/compat/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  userInfo!:any;
-
+export class AuthService implements OnInit {
+  user: any;
+  //@ts-ignore
+  recaptchaVerifier: firebase.auth.RecaptchaVerifier;
+  //@ts-ignore
+  confirmationResult: firebase.auth.ConfirmationResult;
+  recaptchaWidgetId: any;
   constructor(
-    private firestore: AngularFirestore,
-    private ngFireAuth: AngularFireAuth,
+    public fireAuth: AngularFireAuth,
+    private navCtrl: NavController,
     private toaster: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private router: Router,
-    private httpClient: HttpClient,
-    public _ngZone: NgZone
-  ) {}
-
-  //login with email/password
-  async signIn({ email, password }: any) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Authenticating..',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-    loading.present();
-    this.ngFireAuth.signInWithEmailAndPassword(email, password).then((user) => {
-      if (!user.user?.emailVerified) {
-        loading.dismiss();
-        this.presentAlert(
-          'Verify your Email',
-          '',
-          'Click the link provided in your email before you can login and enter the world of pet lovers.',
-          ['OK']
-        );
-        this.ngFireAuth.signOut();
+    public router: Router
+  ) {
+    this.fireAuth.onAuthStateChanged((user) => {
+      if (user) {
+        //User Signed In
+        this.user = user;
+        this.navCtrl.navigateForward(['/tabs']);
+        console.log(this.user);
       } else {
-        loading.dismiss();
-        this.toast('login successful', 'success');
-        this.router.navigate(['/home'])
+        //User Not Signed In
+        this.router.navigate(['/sign-in']);
       }
-    }).catch(error => {
-      loading.dismiss();
-      this.toast(error.message, 'danger')
-    }).catch(error => {
-      loading.dismiss();
-      this.toast(error.message, 'danger');
     })
   }
-  //Register with Email, password & Phone number
-  async register({ email, password, phone }: any) {
+
+  ngOnInit() {}
+
+  //Phone Authentication
+  //Send OTP to phone number
+  async sendOTP(phoneNumber: string) {
     const loading = await this.loadingCtrl.create({
-      message: 'Creating Account..',
+      message: 'Sending OTP',
       spinner: 'crescent',
       showBackdrop: true
     });
-
     loading.present();
-    await this.ngFireAuth.createUserWithEmailAndPassword(email, password)
-      .then((userFull) => {
+    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "sign-in-button",
+      {
+        "size": "invisible",
+      });
+    this.fireAuth.signInWithPhoneNumber("+91" + phoneNumber, this.recaptchaVerifier)
+      .then((confirmationResult) => {
+        this.confirmationResult = confirmationResult;
         loading.dismiss();
-        console.log(userFull);
-        const linkId = userFull.user?.uid;
-        const actionCodeSettings = {
-          url: 'https://pinder-91a59.web.app/finishSignUp?linkId=' + linkId,
-          handleCodeInApp: true
-        };
-        this.ngFireAuth.sendSignInLinkToEmail(email, actionCodeSettings)
-        this.toast(`Successfully registered`, 'success')
-        this.router.navigate(['/login'])
+        this.presentToast('OTP Sent', 'success');
       })
       .catch(error => {
         loading.dismiss();
-        this.toast(error.message, 'danger');
-      })
+        this.presentToast(error.message, 'danger');
+      });
   }
-
-  async signOut() {
+ 
+  //Congirm OTP & Authenticate
+  async signIn(otp: any) {
     const loading = await this.loadingCtrl.create({
+      message: 'Verifying',
       spinner: 'crescent',
       showBackdrop: true
     });
     loading.present();
 
-    this.ngFireAuth.signOut()
-      .then(() => {
+    this.confirmationResult.confirm(otp)
+      .then((user: any) => {
         loading.dismiss();
-        this.router.navigate(['/login']);
+        this.presentToast('Successfully Authenticated', 'success');
+        this.user = user;
       })
+      .catch((error: any) => {
+        loading.dismiss();
+        this.presentToast(error.message, 'danger');
+        console.log(error.message);
+      });
   }
 
-  
-  SetUserData(user: any) {
-    const userData: User = {
-      email: user.email,
-      emailVerified: user.emailVerified,
-      phone: (user?.phone === undefined) ? null : user.phone,
-      phoneVerified: (user?.phoneVerified === undefined) ? null : user.phoneVerified,
-      password: (user?.password === undefined) ? null : user.password,
-      createdAt: new Date()
-    }
-    this.firestore.collection('users').add(userData);
+  //Authenticate with Google
+  async googleLogin() {
+    const loading = await this.loadingCtrl.create({
+      message: 'please wait...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+    loading.present();
+    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 
-  async toast(message: string, status: string) {
+  //Log out
+  async logout() {
+    const loading = await this.loadingCtrl.create({
+      message: 'please wait...',
+      spinner: 'crescent',
+      showBackdrop: true
+    });
+    loading.present();
+    this.fireAuth.signOut().then(()=>{
+      loading.dismiss();
+      this.router.navigate(['/sign-in']);
+    })
+  }
+
+  async presentToast(message: string, status: string) {
     const toast = await this.toaster.create({
       message: message,
       color: status,
       position: 'middle',
-      duration: 2000
+      duration: 3000
     });
     toast.present();
   }

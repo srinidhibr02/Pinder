@@ -1,7 +1,6 @@
-import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
+import { AuthService } from './../../services/auth.service';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase/compat/app';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-sign-in',
@@ -9,89 +8,41 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
-  user: any;
   phoneNumber: any;
   otpSent: boolean = false;
   otp = null;
-  //@ts-ignore
-  recaptchaVerifier: firebase.auth.RecaptchaVerifier;
-  confirmationResult: any;
-  //@ts-ignore
-  countTimeout: number;
 
+  
   constructor(
-    public fireAuth: AngularFireAuth,
-    private navCtrl: NavController,
     private toaster: ToastController,
-    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-  ) {
-    this.fireAuth.authState.subscribe((user) => {
-      this.user = user ? user : null;
-    });
-  }
+    private authService:AuthService
+  ) {}
 
   counterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength} characters remaining`;
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
+  //Send OTP to phone
   async sendOtp() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Sending OTP',
-      spinner: 'crescent',
-      showBackdrop: true
+    this.authService.sendOTP(this.phoneNumber)
+    .then(()=>{
+      this.otpSent = true;
     });
-    loading.present();
-    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      "sign-in-button",
-      {
-        "size": "invisible",
-      });
-
-    this.fireAuth.signInWithPhoneNumber("+91" + this.phoneNumber, this.recaptchaVerifier)
-      .then((confirmationResult) => {
-        this.confirmationResult = confirmationResult;
-        this.otpSent = true;
-        loading.dismiss();
-        this.presentToast('OTP Sent', 'success');
-      }).catch(error => {
-        loading.dismiss();
-        this.recaptchaVerifier.clear();
-        this.presentToast(error.message, 'danger');
-        console.log(error);
-      });
-    this.countTimeout = 30
-    const myInterval = setInterval(() => {
-      this.countTimeout -= 1;
-      if (this.countTimeout == 0) {
-        clearInterval(myInterval);
-      }
-    }, 1000)
   }
-
+  //Verify OTP & SignIN
   async signIn() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Verifying',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-    loading.present();
+    this.authService.signIn(this.otp);
+  }
+  //Try Again
+  async tryAgain(){
+    this.otpSent = false;
 
-    this.confirmationResult.confirm(this.otp)
-      .then((user: any) => {
-        loading.dismiss();
-        this.presentToast('Successfully Authenticated', 'success');
-        this.user = user;
-        this.navCtrl.navigateForward('/home')
-      })
-      .catch((error: any) => {
-        loading.dismiss();
-        this.presentToast(error.message, 'danger');
-        console.log(error.message);
-      });
+  }
+  //Google Authentication Login
+  async login(){
+    this.authService.googleLogin();
   }
 
   async presentToast(message: string, status: string) {

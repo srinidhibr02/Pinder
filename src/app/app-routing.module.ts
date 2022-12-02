@@ -3,7 +3,6 @@ import { PhoneAuthPage } from './pages/phone-auth/phone-auth.page';
 import { WelcomePage } from './pages/welcome/welcome.page';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { HomePage } from './pages/home/home.page';
 import { WelcomeGuard } from './guards/welcome.guard';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -26,14 +25,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/sign-in/sign-in.module').then( m => m.SignInPageModule)
   },
   {
-    path:'home',
-    component: HomePage,
-    loadChildren: ()=> import('./pages/home/home.module').then(m => m.HomePageModule)
-  },
-  {
     path: 'phone-auth',
     component: PhoneAuthPage,
     loadChildren: () => import('./pages/phone-auth/phone-auth.module').then( m => m.PhoneAuthPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
   {
     path:'**',
