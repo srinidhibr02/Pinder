@@ -51,7 +51,7 @@
                 <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
                 <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
                   <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
-                  <ion-input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number" autofocus="true" maxlength="6"></ion-input>
+                  <ion-input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number" maxlength="6"></ion-input>
                 </ion-item>
                 <ion-button expand="block" fill="solid" (click)="signIn()" class="button-press ion-margin-top">Sign In</ion-button>
               </div>
