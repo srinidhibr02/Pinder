@@ -32,7 +32,7 @@
             <ng-container *ngIf="!otpSent; else otpContainer">
               <div class="sec-container">
                   <h2 class="ion-text-center ion-padding-top">Enter phone number to get authentication code.</h2>
-                <ion-item class="ion-padding-bottom ion-padding-top" color="muted" counter="true" [counterFormatter]="counterFormatter" id="send-otp-item" >
+                <ion-item class="ion-padding-top" color="muted" counter="true" [counterFormatter]="counterFormatter" id="send-otp-item" >
                   <ion-chip color="muted">
                     <ion-avatar>
                       <img alt="India Flag" src="../../../assets/India.jpg" />
@@ -43,20 +43,17 @@
                   </ion-chip>
                   <ion-input maxlength="10" placeholder="Phone Number" type="tel" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" class="get-input"></ion-input>
                 </ion-item>
-                <ion-button expand="block" fill="solid" (click)="sendOtp()" class="button-press" [disabled]="!phoneNumber">Get OTP</ion-button>
+                <ion-button expand="block" fill="solid" (click)="sendOtp()" class="button-press ion-margin-top" [disabled]="!phoneNumber">Send OTP</ion-button>
               </div>
             </ng-container>
             <ng-template #otpContainer>
               <div class="sec-container">
                 <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
-                <ion-item class="ion-padding-top" color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
+                <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
                   <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
                   <ion-input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number" autofocus="true" maxlength="6"></ion-input>
                 </ion-item>
-                <button (click)="sendOtp()" [disabled]="!(countTimeout === 0)">
-                  <h3 class="ion-text-center">Request new code? {{countTimeout}}</h3>
-                </button>
-                <ion-button expand="block" fill="solid" (click)="signIn()" class="button-press">Sign In</ion-button>
+                <ion-button expand="block" fill="solid" (click)="signIn()" class="button-press ion-margin-top">Sign In</ion-button>
               </div>
             </ng-template>
             <div id="sign-in-button"></div>
@@ -65,8 +62,11 @@
 
           <!-- Segment Google Switch -->
           <div *ngIf="signInType.value == 'google'">
-            Google Authentication
-
+            <h2 class="ion-text-center ion-padding-top">Authenticate with Google</h2>
+              <ion-button expand="block" fill="outline" size="large" type="submit" color="danger" (click)="login()" class="ion-margin-top ion-margin-bottom">
+                <ion-icon name="logo-google" slot="start" class="ion-margin"></ion-icon>
+                Login with Google
+              </ion-button>
           </div>
         </ion-card-content>
       </ion-card>
