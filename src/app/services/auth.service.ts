@@ -28,7 +28,7 @@ export class AuthService implements OnInit {
         //User Signed In
         this.user = user;
         this.navCtrl.navigateForward(['/tabs']);
-        console.log(this.user);
+        // console.log(this.user);
       } else {
         //User Not Signed In
         this.router.navigate(['/sign-in']);
@@ -107,6 +107,7 @@ export class AuthService implements OnInit {
     loading.present();
     this.fireAuth.signOut().then(()=>{
       loading.dismiss();
+      this.presentToast('Logged out','danger');
       this.router.navigate(['/sign-in']);
     })
   }

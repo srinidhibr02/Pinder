@@ -34,12 +34,9 @@ export class SignInPage implements OnInit {
   //Verify OTP & SignIN
   async signIn() {
     this.authService.signIn(this.otp);
-  }
-  //Try Again
-  async tryAgain(){
     this.otpSent = false;
-
   }
+
   //Google Authentication Login
   async login(){
     this.authService.googleLogin();
