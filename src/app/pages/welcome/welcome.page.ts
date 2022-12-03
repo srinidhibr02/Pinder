@@ -1,27 +1,23 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/Storage-angular';
-import { NavController } from '@ionic/angular';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
 })
-export class WelcomePage implements OnInit {
+export class WelcomePage {
   constructor(
-    private storage: Storage, 
     private router: Router,
-    private navCtrl: NavController
-    ) { }
-
-  async ngOnInit() {
-    await this.storage.create();
-  }
+    ) {
+      if(sessionStorage.getItem('ViewedOnboarding')){
+        this.router.navigate(['/sign-in']);
+      }
+      else sessionStorage.setItem('ViewedOnboarding', 'true');
+    }
 
   proceed(){
-    this.storage.set('ViewedOnboardingPage', true)
-    this.navCtrl.navigateForward('/sign-in');
+    this.router.navigate(['/sign-in']);
   }
   
 }

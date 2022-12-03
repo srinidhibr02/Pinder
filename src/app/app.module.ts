@@ -17,7 +17,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from './../environments/environment';
 
 //Ionic-Angular Storage
-import { IonicStorageModule } from '@ionic/Storage-angular'; 
+import { IonicStorageModule } from '@ionic/storage-angular'; 
 
 
 @NgModule({

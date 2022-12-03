@@ -5,34 +5,38 @@
 </ion-header>
 
 <ion-content>
-  <form *ngIf="!user">
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" color="success" (click)="login()" expand="block">Login with Google</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
+  <div id="recaptcha-container"></div>
+  <!-- style="display: none;" -->
 
+  <ion-list *ngIf="!otpSent">
+    <ion-item>
+      <ion-label position="floating">Phone Number</ion-label>
+      <ion-input id="phoneNumber"></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        <ion-note>OTP will be sent</ion-note>
+      </ion-label>
+    </ion-item>
+    <ion-button expand="block" (click)="sendOTP()">
+      Send OTP
+    </ion-button>
+  </ion-list>
 
-      <div class="container">
-
-        <ng-container *ngIf="!otpSent; else otpContainer">
-          <div class="sec-container">
-            <input [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" class="get-input" placeholder="Phone" type="tel">
-            <button (click)="sendOtp()" class="button-press">Get OTP</button>
-          </div>
-        </ng-container>
-        <ng-template #otpContainer>
-          <div class="sec-container">
-            <input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number">
-            <button (click)="signIn()" class="button-press">Sign In</button>
-          </div>
-        </ng-template>
-        <div id="sign-in-button"></div>
-      </div>
-
-    </ion-row>
-  </form>
+  <ion-list *ngIf="otpSent">
+    <ion-item>
+      <ion-label position="floating">Enter OTP recieved</ion-label>
+      <ion-input id="otpphone"></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        <ion-note>OTP sent to XXX</ion-note>
+      </ion-label>
+    </ion-item>
+    <ion-button expand="block" (click)="verifyOTP()">
+      Enter OTP recieved
+    </ion-button>
+  </ion-list>
 
   <ion-card *ngIf="user">
     <ion-img [src]="user.photoURL"></ion-img>
@@ -41,7 +45,7 @@
       <ion-card-title>{{user.displayName}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button (click)="logout()" expand="block" color="danger">Logout</ion-button>
+      <ion-button expand="block" color="danger">Logout</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
