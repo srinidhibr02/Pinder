@@ -28,36 +28,40 @@
 
           <!-- Segment Phone Number Switch -->
           <div *ngIf="signInType.value == 'phone'">
+            <!-- Recaptcha container -->
+            <div id="recaptchaRef"></div>
+            <div *ngIf="!otpSent">
+              <ion-text>
+                <h2 class="ion-text-center ion-padding-top ion-padding-bottom">Enter phone number to get authentication code.</h2>
+              </ion-text>
+              <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="send-otp-item" >
+                <ion-chip color="muted">
+                  <ion-avatar>
+                    <img alt="India Flag" src="../../../assets/India.jpg" />
+                  </ion-avatar>
+                  <ion-label color="dark" class="ion-padding-end">
+                    <h2>+91</h2>
+                  </ion-label>
+                </ion-chip>
+                <ion-input maxlength="10" placeholder="Phone Number" type="tel" id="phoneNumber" class="get-input"></ion-input>
+              </ion-item>
+              <ion-button (click) = "sendOtp()"expand="block" fill="solid" class="button-press ion-margin-top">Send OTP</ion-button>
+            </div>
 
-            <ng-container *ngIf="!otpSent; else otpContainer">
-              <div class="sec-container">
-                  <h2 class="ion-text-center ion-padding-top">Enter phone number to get authentication code.</h2>
-                <ion-item class="ion-padding-top" color="muted" counter="true" [counterFormatter]="counterFormatter" id="send-otp-item" >
-                  <ion-chip color="muted">
-                    <ion-avatar>
-                      <img alt="India Flag" src="../../../assets/India.jpg" />
-                    </ion-avatar>
-                    <ion-label color="dark" class="ion-padding-end">
-                      <h2>+91</h2>
-                    </ion-label>
-                  </ion-chip>
-                  <ion-input maxlength="10" placeholder="Phone Number" type="tel" [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" class="get-input"></ion-input>
-                </ion-item>
-                <ion-button expand="block" fill="solid" (click)="sendOtp()" class="button-press ion-margin-top" [disabled]="!phoneNumber">Send OTP</ion-button>
-              </div>
-            </ng-container>
-            <ng-template #otpContainer>
-              <div class="sec-container">
-                <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
-                <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
-                  <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
-                  <ion-input [(ngModel)]="otp" [ngModelOptions]="{standalone: true}" class="get-input" type="number" maxlength="6"></ion-input>
-                </ion-item>
-                <ion-button expand="block" fill="solid" (click)="signIn()" class="button-press ion-margin-top">Sign In</ion-button>
-              </div>
-            </ng-template>
-            <div id="sign-in-button"></div>
-
+            <div *ngIf="otpSent">
+              <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
+              <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
+                <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
+                <ion-input id="userEnteredOTP" class="get-input" type="number" maxlength="6"></ion-input>
+              </ion-item>
+              <ion-text class="ion-text-center">
+                <button (click)="retry()" [disabled]="!(timeLeft === 0)">
+                  Retry?&nbsp;<span style="color: #fe3c72;"> {{timeLeft}}</span> &nbsp;seconds left
+                </button>
+              </ion-text>
+              <ion-button expand="block" fill="solid" (click)="signIn()" class="button-press ion-margin-top">Sign In</ion-button>
+            </div>
+            
           </div>
 
           <!-- Segment Google Switch -->
