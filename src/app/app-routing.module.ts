@@ -3,7 +3,6 @@ import { PhoneAuthPage } from './pages/phone-auth/phone-auth.page';
 import { WelcomePage } from './pages/welcome/welcome.page';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,13 +13,11 @@ const routes: Routes = [
   {
     path: 'welcome',
     component: WelcomePage,
-    // canActivate: [WelcomeGuard],
     loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
   {
     path: 'sign-in',
     component: SignInPage,
-    // canActivate: [AuthGuard],
     loadChildren: () => import('./pages/sign-in/sign-in.module').then( m => m.SignInPageModule)
   },
   {

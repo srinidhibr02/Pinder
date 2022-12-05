@@ -6,7 +6,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import 'firebase/auth';
 import { environment } from '../../environments/environment';
-import { RecaptchaVerifier } from 'firebase/auth';
 firebase.initializeApp(environment.firebaseConfig);
 
 @Injectable({
@@ -20,69 +19,57 @@ export class AuthService implements OnInit {
   confirmationResult: firebase.auth.ConfirmationResult;
 
   constructor(
-    public fireAuth: AngularFireAuth,
     private navCtrl: NavController,
     private toaster: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public router: Router,
-    private ngZone: NgZone
-  ) {
-    this.fireAuth.onAuthStateChanged((user) => {
-      if (user) {
-        //User Signed In
-        this.user = user;
-        this.navCtrl.navigateForward(['/tabs']);
-      } else {
-        //User Not Signed In
-        this.router.navigate(['/sign-in']);
-      }
-    })
-  }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
+  
 
-  //Phone Authentication
-  //Send OTP to phone number
-  async sendOTP(phoneNumber: string, recaptcha: RecaptchaVerifier) {
+  //Phone OTP Authentication
+  async sendOTP(phoneNumber: string, recaptchaVerifier: firebase.auth.RecaptchaVerifier) {
     const loading = await this.loadingCtrl.create({
       message: 'Sending OTP',
       spinner: 'crescent',
       showBackdrop: true
     });
     loading.present();
-    this.fireAuth.signInWithPhoneNumber("+91" + phoneNumber, this.recaptchaVerifier)
-      .then((confirmationResult) => {
-        this.confirmationResult = confirmationResult;
+    await firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
+      .then((data: any) => {
         loading.dismiss();
+        this.confirmationResult = data;
         this.presentToast('OTP Sent', 'success');
       })
       .catch(error => {
         loading.dismiss();
+        console.log(error);
         this.presentToast(error.message, 'danger');
       });
   }
 
-  //Congirm OTP & Authenticate
-  async signIn(otp: any) {
+  //SignIn using Phone number OTP verification
+  async signInOTPverification(OTP: string) {
     const loading = await this.loadingCtrl.create({
-      message: 'Verifying',
+      message: 'Signing In',
       spinner: 'crescent',
       showBackdrop: true
     });
     loading.present();
-
-    this.confirmationResult.confirm(otp)
+    await this.confirmationResult.confirm(OTP)
       .then((user: any) => {
         loading.dismiss();
-        this.presentToast('Successfully Authenticated', 'success');
         this.user = user;
+        this.presentToast('Sign-in Successful', 'success');
+        this.router.navigate(['/tabs']);
       })
-      .catch((error: any) => {
+      .catch(error => {
         loading.dismiss();
+        console.log(error);
         this.presentToast(error.message, 'danger');
-        console.log(error.message);
-      });
+      })
   }
 
   //Authenticate with Google
@@ -93,8 +80,10 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    await firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    loading.dismiss();
   }
+
 
   //Log out
   async logout() {
@@ -104,12 +93,10 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    this.fireAuth.signOut().then(() => {
+    firebase.auth().signOut().then(() => {
       loading.dismiss();
       this.presentToast('Logged out', 'danger');
-      this.ngZone.run(()=>{
-        this.router.navigate(['/sign-in']);
-      })
+      this.router.navigate(['/sign-in']);
     })
   }
 
