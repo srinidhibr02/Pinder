@@ -43,7 +43,7 @@
                     <h2>+91</h2>
                   </ion-label>
                 </ion-chip>
-                <ion-input maxlength="10" placeholder="Phone Number" type="tel" id="phoneNumber" class="get-input"></ion-input>
+                <ion-input [(ngModel)]="phoneNumber" maxlength="10" placeholder="Phone Number" type="tel" id="phoneNumber" class="get-input"></ion-input>
               </ion-item>
               <ion-button (click) = "sendOtp()"expand="block" fill="solid" class="button-press ion-margin-top">Send OTP</ion-button>
             </div>
@@ -52,7 +52,7 @@
               <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
               <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
                 <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
-                <ion-input id="userEnteredOTP" class="get-input" type="number" maxlength="6"></ion-input>
+                <ion-input [(ngModel)]="otpEntered" id="userEnteredOTP" class="get-input" type="number" maxlength="6"></ion-input>
               </ion-item>
               <ion-text class="ion-text-center">
                 <button (click)="retry()" [disabled]="!(timeLeft === 0)">

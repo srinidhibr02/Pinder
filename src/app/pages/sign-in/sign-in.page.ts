@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth.service';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Component, NgZone, OnInit } from '@angular/core';
 import 'firebase/auth';
 import firebase from 'firebase/compat/app';
@@ -13,10 +13,12 @@ firebase.initializeApp(environment.firebaseConfig);
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
+  user: any;
   otpSent: boolean = false;
-  phoneNumber:string = '';
+  phoneNumber: string = '';
+  otpEntered: string = ''
   //@ts-ignore
-  timeLeft:number;
+  timeLeft: number;
   //@ts-ignore
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   //@ts-ignore
@@ -26,19 +28,29 @@ export class SignInPage implements OnInit {
     private toaster: ToastController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private authService:AuthService,
+    private authService: AuthService,
     private ngZone: NgZone,
+    private navCtrl: NavController,
     private router: Router
-  ) {}
+  ) { }
 
-  ionViewDidEnter() {  
-    this.timeLeft = 20;
+  ionViewDidEnter() {
+    //Get Redirect Results 
+    firebase.auth().getRedirectResult().then((result) => {
+      console.log('HII people');
+      if (result.credential) {
+        console.log('Fucker Result Credentials are', result.credential);
+        this.router.navigate(['/tabs']);
+      }
+    });
+
+    //Generate Recaptcha after everything is loaded.
     (<HTMLElement>document.getElementById('recaptchaRef')).innerHTML = `<div id="recaptcha-container" style="display: none;"></div>`;
     setTimeout(() => {
       this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
         'size': 'invisible'
       });
-    }, 2000);
+    }, 1000);
   }
 
   counterFormatter(inputLength: number, maxLength: number) {
@@ -47,60 +59,36 @@ export class SignInPage implements OnInit {
 
   ngOnInit() { }
 
-  //Send OTP to phone
+  //Send OTP to phone - Working very fine
   async sendOtp() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Sending OTP',
-      spinner: 'crescent',
-      showBackdrop: true
-    });
-    loading.present();
-    const phoneNumber = (<HTMLInputElement>document.getElementById('phoneNumber')).value;
-    firebase.auth().signInWithPhoneNumber('+91'+phoneNumber, this.recaptchaVerifier)
-    .then((data)=>{
-      loading.dismiss();
-      this.phoneNumber = phoneNumber;
-      this.otpSent = true;
-      let interval = setInterval(()=>{
-        this.timeLeft -= 1;
-        if(this.timeLeft <= 0){
-          clearInterval(interval);
-        }
-      },1000);
-      this.confirmationResult = data;
-      // console.log(data);
-      this.presentToast('OTP Sent', 'success');
-    })
-    .catch(error =>{
-      loading.dismiss();
-      this.presentToast('Failed to send OTP', 'danger');
-      console.log(error.message);
-    })
-  }
-  //Verify OTP & SignIN
-  async signIn() {
-    const userEnteredOTP = (<HTMLInputElement>document.getElementById('userEnteredOTP')).value;
-    this.confirmationResult.confirm(userEnteredOTP)
-    .then((data)=>{
-      console.log(data);
-      this.otpSent = false;
-      this.recaptchaVerifier.clear();
-      this.ngZone.run(()=>{
-        this.router.navigate(['/tabs']);
-      })
-    })
-    .catch(error=>{
-      console.log(error);
-    })
+    // this.phoneNumber = (<HTMLInputElement>document.getElementById('phoneNumber')).value;
+    this.timeLeft = 30;
+    await this.authService.sendOTP('+91' + this.phoneNumber, this.recaptchaVerifier)
+    this.otpSent = true;
+    let interval = setInterval(() => {
+      this.timeLeft--;
+      if (this.timeLeft <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
   }
 
-  retry(){
+  //Verify OTP & SignIN
+  async signIn() {
+    this.authService.signInOTPverification(this.otpEntered)
+      .then(() => {
+        this.otpSent = false;
+        this.recaptchaVerifier.clear();
+      });
+  }
+
+  retry() {
     this.otpSent = false;
   }
 
   //Google Authentication Login
-  async login(){
-    this.authService.googleLogin();
+  async login() {
+    await this.authService.googleLogin();
   }
 
   async presentToast(message: string, status: string) {
