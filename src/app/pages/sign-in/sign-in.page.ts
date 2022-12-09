@@ -29,13 +29,9 @@ export class SignInPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private ngZone: NgZone,
-    private navCtrl: NavController,
     private router: Router
-  ) { }
-
-  ionViewDidEnter() {
-    //Get Redirect Results 
+  ) {
+    console.log('First me')
     firebase.auth().getRedirectResult().then((result) => {
       console.log('HII people');
       if (result.credential) {
@@ -43,7 +39,9 @@ export class SignInPage implements OnInit {
         this.router.navigate(['/tabs']);
       }
     });
-
+  }
+  
+  ionViewDidEnter() {
     //Generate Recaptcha after everything is loaded.
     (<HTMLElement>document.getElementById('recaptchaRef')).innerHTML = `<div id="recaptcha-container" style="display: none;"></div>`;
     setTimeout(() => {
@@ -63,7 +61,7 @@ export class SignInPage implements OnInit {
   async sendOtp() {
     // this.phoneNumber = (<HTMLInputElement>document.getElementById('phoneNumber')).value;
     this.timeLeft = 30;
-    await this.authService.sendOTP('+91' + this.phoneNumber, this.recaptchaVerifier)
+    this.authService.sendOTP('+91' + this.phoneNumber, this.recaptchaVerifier)
     this.otpSent = true;
     let interval = setInterval(() => {
       this.timeLeft--;
@@ -88,7 +86,7 @@ export class SignInPage implements OnInit {
 
   //Google Authentication Login
   async login() {
-    await this.authService.googleLogin();
+    this.authService.googleLogin();
   }
 
   async presentToast(message: string, status: string) {

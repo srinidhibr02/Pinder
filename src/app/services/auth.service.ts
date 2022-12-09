@@ -19,7 +19,6 @@ export class AuthService implements OnInit {
   confirmationResult: firebase.auth.ConfirmationResult;
 
   constructor(
-    private navCtrl: NavController,
     private toaster: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
@@ -28,7 +27,6 @@ export class AuthService implements OnInit {
 
   ngOnInit() {}
   
-
   //Phone OTP Authentication
   async sendOTP(phoneNumber: string, recaptchaVerifier: firebase.auth.RecaptchaVerifier) {
     const loading = await this.loadingCtrl.create({
@@ -37,7 +35,7 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    await firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
+    firebase.auth().signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
       .then((data: any) => {
         loading.dismiss();
         this.confirmationResult = data;
@@ -58,7 +56,7 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    await this.confirmationResult.confirm(OTP)
+    this.confirmationResult.confirm(OTP)
       .then((user: any) => {
         loading.dismiss();
         this.user = user;
@@ -80,7 +78,7 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    await firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
     loading.dismiss();
   }
 

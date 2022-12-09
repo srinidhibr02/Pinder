@@ -1,0 +1,102 @@
+*{
+    // border: 1px solid black;
+    padding: 0;
+    margin: 0;
+}
+ion-segment-button::part(indicator-background) {
+    background: #fe3c72;
+}
+
+/* Material Design styles */
+ion-segment-button.md::part(native) {
+    color: #000;
+}
+
+.segment-button-checked.md::part(native) {
+    color: #fe3c72;
+}
+
+ion-segment-button.md::part(indicator-background) {
+    height: 4px;
+}
+
+/* iOS styles */
+ion-segment-button.ios::part(native) {
+    color: #fe3c72;
+}
+
+.segment-button-checked.ios::part(native) {
+    color: #fff;
+}
+
+ion-segment-button.ios::part(indicator-background) {
+    border-radius: 20px;
+}
+
+.thumbnail {
+    margin-top: 10px;
+    text-align: -webkit-center;
+    ion-thumbnail {
+        position: relative;
+        min-width: 5rem;
+        min-height: 5rem;
+        border-radius: 20px;
+        padding: 5px;
+        img {
+            border-radius: 20px;
+        }
+    }
+    ion-thumbnail::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 20px;
+        padding: 3px;
+        background: linear-gradient(to bottom, #fe3c72, #000000);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out; 
+        mask-composite: destination-out; 
+        mask-composite: exclude; 
+    }
+    ion-fab {
+        margin: 0 -10px -14px 10px;
+        width: 20px;
+        height: 20px;
+        ion-fab-button {
+            width: 20px;
+            height: 20px;
+            --background: linear-gradient(to bottom, #fe3c72, #000000);
+        }
+    }
+}
+
+.profileButtons{
+    margin-top: 10px;
+    ion-button{
+        --background: #fe3c72;
+        color: white;
+        height: 40px;
+        width: 100px;
+        margin-right: 10px;
+    }
+    ion-fab-button{
+        --background: #fe3c72;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+}
+
+.postRow{
+    padding: 10px;
+    .postCol{
+        padding: 10px;
+        .post{
+            margin: auto;
+        }
+    }
+}
