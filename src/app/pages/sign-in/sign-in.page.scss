@@ -2,51 +2,54 @@
 //     border: 1px solid black;
 // }
 
-ion-button{
+ion-button {
   --background: #fe3c72 !important;
   --background-activated: rgb(114, 114, 114);
 }
-ion-segment-button::part(indicator-background) {
-    background:#fe3c72;
-  }
-  
-  /* Material Design styles */
-  ion-segment-button.md::part(native) {
-    color: #000;
-  }
-  
-  .segment-button-checked.md::part(native) {
-    color: #fe3c72;
-  }
-  
-  ion-segment-button.md::part(indicator-background) {
-    height: 4px;
-  }
-  
-  /* iOS styles */
-  ion-segment-button.ios::part(native) {
-    color: #fe3c72;
-  }
-  
-  .segment-button-checked.ios::part(native) {
-    color: #fff;
-  }
-  
-  ion-segment-button.ios::part(indicator-background) {
-    border-radius: 20px;
-  }
 
-ion-content{
-    .topRow{
-        height: 30vh;
-        .topCol{
-            display: block;
-            margin: auto;
-            height: 30vh;
-            ion-img{
-                height: 100%;
-                object-fit: contain;
-            }
-        }
+ion-segment-button::part(indicator-background) {
+  background: #fe3c72;
+}
+
+/* Material Design styles */
+ion-segment-button.md::part(native) {
+  color: rgb(255, 255, 255);
+}
+
+.segment-button-checked.md::part(native) {
+  color: #fe3c72;
+}
+
+ion-segment-button.md::part(indicator-background) {
+  height: 4px;
+}
+
+/* iOS styles */
+ion-segment-button.ios::part(native) {
+  color: #fe3c72;
+}
+
+.segment-button-checked.ios::part(native) {
+  color: #fff;
+}
+
+ion-segment-button.ios::part(indicator-background) {
+  border-radius: 20px;
+}
+
+ion-content {
+  .topRow {
+    height: 30vh;
+
+    .topCol {
+      display: block;
+      margin: auto;
+      height: 30vh;
+
+      ion-img {
+        height: 100%;
+        object-fit: contain;
+      }
     }
+  }
 }
