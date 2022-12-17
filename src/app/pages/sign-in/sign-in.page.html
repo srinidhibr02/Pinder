@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true" color="light">
   <ion-row class="topRow ">
-    <ion-col class="topCol">
+    <ion-col class="topCol ion-padding-top ion-margin-top">
       <ion-img src="../../../assets/SVG to use/undraw_friends_r511.svg"></ion-img>
     </ion-col>
   </ion-row>
@@ -11,13 +11,13 @@
   </ion-row>
   <ion-row class="ion-padding">
     <ion-col>
-      <ion-card color="light">
+      <ion-card style="background-color: whitesmoke;">
         <ion-card-header class="ion-text-center ion-padding">
           <ion-card-title><h1>Signin</h1></ion-card-title>
           <ion-card-subtitle>Login using phone or google account</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <ion-segment value="phone" #signInType>
+          <ion-segment value="{{signInType}}" (ionChange)="selectionChanged($event)">
             <ion-segment-button value="phone">
               <ion-label>Phone</ion-label>
             </ion-segment-button>
@@ -25,11 +25,11 @@
               <ion-label>Google</ion-label>
             </ion-segment-button>
           </ion-segment>
-
+          
           <!-- Segment Phone Number Switch -->
-          <div *ngIf="signInType.value == 'phone'">
+          <div id="recaptchaRef" style="display: none;"></div>
+          <div *ngIf="signInType == 'phone'">
             <!-- Recaptcha container -->
-            <div id="recaptchaRef" style="display: none;"></div>
             <div *ngIf="!otpSent">
               <ion-text>
                 <h2 class="ion-text-center ion-padding-top ion-padding-bottom">Enter phone number to get authentication code.</h2>
@@ -52,7 +52,8 @@
               <h2 class="ion-text-center ion-padding-top">Please enter the 6 - digit code sent to you at<br/> +91 {{phoneNumber}}</h2>
               <ion-item color="muted" counter="true" [counterFormatter]="counterFormatter" id="sign-in-item">
                 <ion-label position="floating" style="color: #fe3c72;">Enter OTP</ion-label>
-                <ion-input [(ngModel)]="otpEntered" id="userEnteredOTP" class="get-input" type="number" maxlength="6"></ion-input>
+                <ion-input [(ngModel)]="otpEntered" maxlength="6" placeholder="Phone Number" id="userEnteredOTP" class="get-input"></ion-input>
+  
               </ion-item>
               <ion-text class="ion-text-center">
                 <button (click)="retry()" [disabled]="!(timeLeft === 0)">
@@ -65,7 +66,7 @@
           </div>
 
           <!-- Segment Google Switch -->
-          <div *ngIf="signInType.value == 'google'">
+          <div *ngIf="signInType == 'google'">
             <h2 class="ion-text-center ion-padding-top">Authenticate with Google</h2>
               <ion-button expand="block" fill="outline" size="medium" type="submit" color="danger" (click)="login()" class="ion-margin-top ion-margin-bottom">
                 <ion-icon name="logo-google" slot="start" class="ion-margin"></ion-icon>

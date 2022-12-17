@@ -14,6 +14,7 @@ firebase.initializeApp(environment.firebaseConfig);
 })
 export class SignInPage implements OnInit {
   user: any;
+  signInType:string ='phone';
   otpSent: boolean = false;
   phoneNumber: string = '';
   otpEntered: string = ''
@@ -37,7 +38,9 @@ export class SignInPage implements OnInit {
       }
      });
   }
-  
+  selectionChanged($event:any){
+    this.signInType = $event.detail.value;
+  }
   ionViewDidEnter() {
     //Generate Recaptcha after everything is loaded.
     (<HTMLElement>document.getElementById('recaptchaRef')).innerHTML = `<div id="recaptcha-container"></div>`;
@@ -48,7 +51,6 @@ export class SignInPage implements OnInit {
     }, 1000);
   }
 
-  
   counterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength} characters remaining`;
   }
