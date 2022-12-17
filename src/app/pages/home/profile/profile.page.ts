@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 import { Post, Pet, PetType, CatBreed, DogBreed } from '../../../models/pet';
 
 @Component({
@@ -62,7 +63,7 @@ export class ProfilePage implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(private actionSheetCtrl:ActionSheetController) {
     this.selectedPet = this.pets[0];
     this.selectedPetName = this.selectedPet.name;
   }
@@ -75,5 +76,46 @@ export class ProfilePage implements OnInit {
         return true;
     });
     this.selectedPet = this.selectedPet[0];
+  }
+
+  actionResult: any = '';
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      mode: 'ios',
+      cssClass: 'addition',
+      buttons: [
+        // {
+        //   text: 'Delete',
+        //   role: 'destructive',
+        //   data: {
+        //     action: 'delete',
+        //   },
+        // },
+        {
+          text: 'Add new Pet',
+          icon:'paw-outline',
+          data: {
+            action: 'newPet',
+          },
+        },
+        {
+          text: 'Add new Post',
+          icon:"camera-outline",
+          data: {
+            action: 'newPost',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+    await actionSheet.present();
+    const result = await actionSheet.onDidDismiss();
+    this.actionResult = result.data['action'];
   }
 }

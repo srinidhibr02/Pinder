@@ -78,7 +78,7 @@ export class AuthService implements OnInit {
       showBackdrop: true
     });
     loading.present();
-    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
     loading.dismiss();
   }
 

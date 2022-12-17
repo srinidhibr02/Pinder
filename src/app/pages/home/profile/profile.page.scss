@@ -74,6 +74,13 @@ ion-segment-button.ios::part(indicator-background) {
     }
 }
 
+ion-fab-button{
+    --background: #fe3c72;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
 .profileButtons{
     margin-top: 10px;
     ion-button{
@@ -81,12 +88,6 @@ ion-segment-button.ios::part(indicator-background) {
         color: white;
         height: 40px;
         width: 100px;
-        margin-right: 10px;
-    }
-    ion-fab-button{
-        --background: #fe3c72;
-        width: 40px;
-        height: 40px;
         margin-right: 10px;
     }
 }
@@ -99,4 +100,15 @@ ion-segment-button.ios::part(indicator-background) {
             margin: auto;
         }
     }
+}
+
+.postCol:nth-child(even){
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+}
+.postCol:nth-child(odd){
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
 }
