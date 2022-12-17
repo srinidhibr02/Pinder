@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth.service';
-import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, IonSpinner, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Component, NgZone, OnInit } from '@angular/core';
 import 'firebase/auth';
 import firebase from 'firebase/compat/app';
@@ -31,19 +31,16 @@ export class SignInPage implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    console.log('First me')
-    firebase.auth().getRedirectResult().then((result) => {
-      console.log('HII people');
-      if (result.credential) {
-        console.log('Fucker Result Credentials are', result.credential);
+    firebase.auth().getRedirectResult().then(result => {
+      if (result.user) {
         this.router.navigate(['/tabs']);
       }
-    });
+     });
   }
   
   ionViewDidEnter() {
     //Generate Recaptcha after everything is loaded.
-    (<HTMLElement>document.getElementById('recaptchaRef')).innerHTML = `<div id="recaptcha-container" style="display: none;"></div>`;
+    (<HTMLElement>document.getElementById('recaptchaRef')).innerHTML = `<div id="recaptcha-container"></div>`;
     setTimeout(() => {
       this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
         'size': 'invisible'
@@ -51,6 +48,7 @@ export class SignInPage implements OnInit {
     }, 1000);
   }
 
+  
   counterFormatter(inputLength: number, maxLength: number) {
     return `${maxLength - inputLength} characters remaining`;
   }
@@ -87,6 +85,15 @@ export class SignInPage implements OnInit {
   //Google Authentication Login
   async login() {
     this.authService.googleLogin();
+    
+    console.log('First me')
+    firebase.auth().getRedirectResult().then((result) => {
+      console.log('HII people');
+      if (result.credential) {
+        console.log('Fucker Result Credentials are', result.credential);
+        this.router.navigate(['/tabs']);
+      }
+    });
   }
 
   async presentToast(message: string, status: string) {

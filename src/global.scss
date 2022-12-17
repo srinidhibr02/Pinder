@@ -41,3 +41,12 @@
     padding: 0;
     font-family: PatrickHand !important;
 }
+
+
+ion-action-sheet.addition {
+    --backdrop-opacity: 0.5;
+    --color: #fe3c72;
+    --button-color: #fe3c72;
+    /* role: "destructive" button iOS styling override */
+    --ion-color-danger: #000000;
+  }

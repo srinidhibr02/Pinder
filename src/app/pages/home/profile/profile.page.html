@@ -6,25 +6,24 @@
     <ion-title>
       <h1>Profile</h1>
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button size="large">
-        <ion-icon name="add-circle-outline" slot="end" style="color: #fe3c72; font-size: 2rem;"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="muted">
-  <ion-segment mode="md" [scrollable]="true" [(ngModel)]="selectedPetName" color="danger"
-    (ionChange)="onSegmentChange()">
-    <ion-segment-button value="{{pet.name}}" *ngFor="let pet of pets">
-      <ion-text>{{pet.name}}</ion-text>
-    </ion-segment-button>
-  </ion-segment>
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button size="small" (click)="presentActionSheet()">
+      <ion-icon name="chevron-down"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-  <ion-grid class="ion-padding-top">
+  <ion-grid class="ion-padding-top" *ngIf="pets != null">
+    <ion-segment mode="md" [scrollable]="true" [(ngModel)]="selectedPetName" color="danger"
+      (ionChange)="onSegmentChange()">
+      <ion-segment-button value="{{pet.name}}" *ngFor="let pet of pets">
+        <ion-text>{{pet.name}}</ion-text>
+      </ion-segment-button>
+    </ion-segment>
     <ion-row class="dpRow">
-
       <ion-col size="4" class="thumbnail">
         <ion-thumbnail>
           <ion-fab vertical="bottom" horizontal="end">
@@ -86,22 +85,30 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <h1 style="font-size: 24px; margin-left: 10px;">
+          Gallery
+          <ion-icon name="chevron-down-outline" size="small" color="danger"></ion-icon>
+        </h1>
+      </ion-col>
+    </ion-row>
+    <ion-row class="postRow" *ngIf="selectedPet.posts.length > 0">
+      <ion-col class="postCol" *ngFor="let post of selectedPet.posts; let i=index;" size-sm="6" size-md="4" size-lg="2"
+        size-xs="6">
+        <ion-card class="post">
+          <img alt="Some Post" src="{{post.image}}" />
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="heart-outline" style="color: #fe3c72;"></ion-icon>
+            {{post.likes.length}}
+            <ion-icon name="chatbubble-outline" style="color: #fe3c72;"></ion-icon>
+            5
+            <ion-icon name="repeat-outline" style="color: #fe3c72;"></ion-icon>
+            17
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </ion-grid>
-
-  <ion-row class="postRow">
-    <ion-col class="postCol" *ngFor="let post of selectedPet.posts; let i=index;" size-sm="6" size-md="4" size-lg="2" size-xs="6">
-      <ion-card class="post">
-        <img alt="Some Post" src="{{post.image}}"/>
-        <ion-card-content class="ion-text-center">
-          <ion-icon name="heart-outline" style="color: #fe3c72;"></ion-icon> 
-          {{post.likes.length}}
-          <ion-icon name="chatbubble-outline" style="color: #fe3c72;"></ion-icon>
-          5
-          <ion-icon name="repeat-outline" style="color: #fe3c72;"></ion-icon>
-          17
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
 
 </ion-content>

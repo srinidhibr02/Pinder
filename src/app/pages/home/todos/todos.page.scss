@@ -4,12 +4,16 @@
     padding: 0;
 }
 .active{
-    background-color: #fe3c72;
+    background: linear-gradient(to bottom, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
     color: white;
-    border-radius: 10px;
-    padding: 5px 0;
+    border-radius: 30px;
+}
+
+ion-content{
+    --ion-background-color: #000;
 }
 
 .dateCol{
-    margin: auto;
+    padding: 20px 0px;
+    margin: 10px 0px;
 }
