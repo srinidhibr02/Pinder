@@ -3,15 +3,18 @@
 // }
 ion-tabs {
     ion-tab-bar {
+        background-color: rgb(241, 241, 241);
         position: absolute;
-        bottom: 2vh;
+        bottom: 3vh;
         left: 5%;
         width: 90%;
-        border-radius: 20px;
+        border-radius: 30px;
+        padding: 5px 0px;
         --border: 0;
+        color: black;
         ion-tab-button {
-            --color: rgb(0, 0, 0);
-            --color-selected: #fe3c72;
+            --color-selected: #fe3c72 !important;
+            --background: transparent;
             ion-icon {
                 font-size: 1.5rem;
             }
