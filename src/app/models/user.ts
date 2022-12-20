@@ -3,6 +3,5 @@ export interface User {
     emailVerified?:boolean;
     phone: string;
     phoneVerified?:boolean;
-    password:string;
-    createdAt?: Date;
+    createdAt: Date;
 }

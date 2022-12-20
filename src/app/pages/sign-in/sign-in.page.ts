@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage.service';
 import { AuthService } from './../../services/auth.service';
 import { AlertController, IonSpinner, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Component, NgZone, OnInit } from '@angular/core';
@@ -30,14 +31,19 @@ export class SignInPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private stoService: StorageService
   ) {
     firebase.auth().getRedirectResult().then(result => {
       if (result.user) {
+        console.log(result.user);
+        this.stoService.createUserCollection(result.user.uid);
+        this.presentToast('Sign-in Successful', 'success');
         this.router.navigate(['/tabs']);
       }
      });
   }
+
   selectionChanged($event:any){
     this.signInType = $event.detail.value;
   }
@@ -87,15 +93,6 @@ export class SignInPage implements OnInit {
   //Google Authentication Login
   async login() {
     this.authService.googleLogin();
-    
-    console.log('First me')
-    firebase.auth().getRedirectResult().then((result) => {
-      console.log('HII people');
-      if (result.credential) {
-        console.log('Fucker Result Credentials are', result.credential);
-        this.router.navigate(['/tabs']);
-      }
-    });
   }
 
   async presentToast(message: string, status: string) {

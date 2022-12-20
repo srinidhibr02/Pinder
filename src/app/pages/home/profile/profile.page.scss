@@ -1,8 +1,9 @@
-*{
-    // border: 1px solid black;
-    padding: 0;
-    margin: 0;
-}
+// * {
+//     // border: 1px solid black;
+//     padding: 0;
+//     margin: 0;
+// }
+
 ion-segment-button::part(indicator-background) {
     background: #fe3c72;
 }
@@ -36,6 +37,9 @@ ion-segment-button.ios::part(indicator-background) {
 .thumbnail {
     margin-top: 10px;
     text-align: -webkit-center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     ion-thumbnail {
         position: relative;
         min-width: 5rem;
@@ -46,6 +50,7 @@ ion-segment-button.ios::part(indicator-background) {
             border-radius: 20px;
         }
     }
+
     ion-thumbnail::before {
         content: "";
         position: absolute;
@@ -58,14 +63,16 @@ ion-segment-button.ios::part(indicator-background) {
         background: linear-gradient(to bottom, #fe3c72, #000000);
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: destination-out; 
-        mask-composite: destination-out; 
-        mask-composite: exclude; 
+        -webkit-mask-composite: destination-out;
+        mask-composite: destination-out;
+        mask-composite: exclude;
     }
+
     ion-fab {
         margin: 0 -10px -14px 10px;
         width: 20px;
         height: 20px;
+
         ion-fab-button {
             width: 20px;
             height: 20px;
@@ -74,41 +81,45 @@ ion-segment-button.ios::part(indicator-background) {
     }
 }
 
-ion-fab-button{
+ion-fab-button {
     --background: #fe3c72;
     width: 40px;
     height: 40px;
-    margin-right: 10px;
 }
 
-.profileButtons{
-    margin-top: 10px;
-    ion-button{
-        --background: #fe3c72;
-        color: white;
-        height: 40px;
-        width: 100px;
-        margin-right: 10px;
+.addPost {
+    --background: #fe3c72;
+
+    ion-fab-button {
+        width: 60px;
+        height: 60px;
     }
+
+    position: absolute;
+    bottom: 15%;
+    right: 10%;
 }
 
-.postRow{
-    padding: 10px;
-    .postCol{
-        padding: 10px;
-        .post{
-            margin: auto;
+.profileButtons {
+    margin: 10px 15px 0 0;
+
+    ion-col {
+        ion-button {
+            --background: #fe3c72;
+            color: white;
         }
     }
 }
 
-.postCol:nth-child(even){
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-top-left-radius: 30px;
-}
-.postCol:nth-child(odd){
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+.postRow {
+    padding: 10px;
+    .postCol {
+        padding: 1% 1%;
+            img {
+                margin: auto;
+                object-fit: cover;
+                border-radius: 20px;
+                width: 100vw;
+            }
+    }
 }

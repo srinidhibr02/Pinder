@@ -1,22 +1,20 @@
-<ion-header class="ion-padding ion-margin" translucent="true">
+<ion-header translucent="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button style="color: #fe3c72;"></ion-menu-button>
+    <ion-buttons slot="start" style="color: #fe3c72;">
+      <ion-menu-button ></ion-menu-button>
+      <ion-button fill="clear"><ion-icon name="settings"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title>
-      <h1>Profile</h1>
-    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="muted">
-  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
+<ion-content color="light">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="addPost">
     <ion-fab-button size="small" (click)="presentActionSheet()">
-      <ion-icon name="chevron-down"></ion-icon>
+      <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-grid class="ion-padding-top" *ngIf="pets != null">
+  <ion-grid *ngIf="pets != null">
     <ion-segment mode="md" [scrollable]="true" [(ngModel)]="selectedPetName" color="danger"
       (ionChange)="onSegmentChange()">
       <ion-segment-button value="{{pet.name}}" *ngFor="let pet of pets">
@@ -34,28 +32,28 @@
           <img src="{{selectedPet.dp}}" />
         </ion-thumbnail>
       </ion-col>
-      <ion-col>
-        <h2 style="padding-top: 10px;"><b>{{selectedPet.name}}</b></h2>
+      <ion-col class="ion-padding-top">
+        <h2><b>{{selectedPet.name}}</b></h2>
         <ion-text color="medium">
           {{selectedPet.breed}}
         </ion-text>
 
         <p>{{selectedPet.temparament.join(' | ')}}</p>
 
-        <ion-buttons class="profileButtons">
-          <ion-button class="followBtn" shape="round" size="small">Follow</ion-button>
-          <ion-fab-button>
-            <ion-icon name="chatbubbles-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button>
-            <ion-icon name="cog-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-buttons>
+        <ion-row class="profileButtons">
+          <ion-col>
+            <ion-button class="followBtn" expand="block" size="small">Follow</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button class="followBtn" expand="block" color="light" size="small">Message</ion-button>
+          </ion-col>
+        </ion-row>
+
       </ion-col>
     </ion-row>
     <ion-row style="padding-top: 10px;">
       <ion-col size="3" offset="1.5">
-        <ion-item lines="none">
+        <ion-item lines="none" color="muted">
           <ion-label class="ion-text-center">
             <h2>
               <strong style="color: #fe3c72;">{{selectedPet.posts.length}}</strong>
@@ -65,7 +63,7 @@
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <ion-item lines="none">
+        <ion-item lines="none" color="muted">
           <ion-label class="ion-text-center">
             <h2>
               <strong style="color: #fe3c72;">{{selectedPet.followers.length}}</strong>
@@ -74,8 +72,8 @@
           </ion-label>
         </ion-item>
       </ion-col>
-      <ion-col size="3">
-        <ion-item lines="none">
+      <ion-col size="3"> 
+        <ion-item lines="none" color="muted">
           <ion-label class="ion-text-center">
             <h2>
               <strong style="color: #fe3c72;">{{selectedPet.following.length}}</strong>
@@ -94,19 +92,18 @@
       </ion-col>
     </ion-row>
     <ion-row class="postRow" *ngIf="selectedPet.posts.length > 0">
-      <ion-col class="postCol" *ngFor="let post of selectedPet.posts; let i=index;" size-sm="6" size-md="4" size-lg="2"
-        size-xs="6">
-        <ion-card class="post">
+      <ion-col class="postCol" *ngFor="let post of selectedPet.posts; let i=index;" size="4">
+        
           <img alt="Some Post" src="{{post.image}}" />
-          <ion-card-content class="ion-text-center">
+          <!-- <ion-card-content class="ion-text-center">
             <ion-icon name="heart-outline" style="color: #fe3c72;"></ion-icon>
             {{post.likes.length}}
             <ion-icon name="chatbubble-outline" style="color: #fe3c72;"></ion-icon>
             5
             <ion-icon name="repeat-outline" style="color: #fe3c72;"></ion-icon>
             17
-          </ion-card-content>
-        </ion-card>
+          </ion-card-content> -->
+     
       </ion-col>
     </ion-row>
   </ion-grid>

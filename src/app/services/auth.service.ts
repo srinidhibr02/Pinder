@@ -6,13 +6,14 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import 'firebase/auth';
 import { environment } from '../../environments/environment';
+import { StorageService } from './storage.service';
 firebase.initializeApp(environment.firebaseConfig);
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnInit {
-  user: any;
+  
   //@ts-ignore
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   //@ts-ignore
@@ -23,6 +24,7 @@ export class AuthService implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public router: Router,
+    private stoService: StorageService
   ) {}
 
   ngOnInit() {}
@@ -57,9 +59,10 @@ export class AuthService implements OnInit {
     });
     loading.present();
     this.confirmationResult.confirm(OTP)
-      .then((user: any) => {
+      .then((result: any) => {
         loading.dismiss();
-        this.user = user;
+        console.log(result);
+        this.stoService.createUserCollection(result.user.uid);
         this.presentToast('Sign-in Successful', 'success');
         this.router.navigate(['/tabs']);
       })
